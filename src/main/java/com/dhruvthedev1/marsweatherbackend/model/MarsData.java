@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MarsData {
   @JsonProperty("terrestrial_date")
+  // yyyy-mm-dd
   private String date;
 
   @JsonProperty("sol")
@@ -16,6 +17,13 @@ public class MarsData {
   private double high;
 
   public MarsData() {
+  }
+
+  public MarsData(String date, int sol, double low, double high) {
+    this.date = date;
+    this.sol = sol;
+    this.low = low;
+    this.high = high;
   }
 
   public String getDate() {
@@ -49,4 +57,15 @@ public class MarsData {
   public void setHigh(double high) {
     this.high = high;
   }
+
+    @Override
+  public String toString() {
+    return "MarsData{" +
+           "date='" + date + '\'' +
+           ", sol=" + sol +
+           ", low=" + low +
+           ", high=" + high +
+           '}';
+  }
+
 }
