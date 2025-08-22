@@ -6,10 +6,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.dhruvthedev1.marsweatherbackend.model.MarsData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Service
 public class MarsWeatherService {
   // url for Mars Weather - Curiosity Rover
   private static final String urlString = "";
@@ -47,16 +50,6 @@ public class MarsWeatherService {
     }
 
     return marsDataList;
-  }
-
-  public static void main(String[] args) {
-    MarsWeatherService service = new MarsWeatherService();
-    List<MarsData> weatherData = service.getMarsWeatherData();
-
-    // Print first 5 entries of weather data
-    for (int i = 0; i < weatherData.size(); i++) {
-      System.out.println(weatherData.get(i));
-    }
   }
 
 }
