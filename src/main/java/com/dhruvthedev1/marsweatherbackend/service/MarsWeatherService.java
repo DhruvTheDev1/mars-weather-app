@@ -11,49 +11,52 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MarsWeatherService {
+  // url for Mars Weather - Curiosity Rover
   private static final String urlString = "";
 
   public List<MarsData> getMarsWeatherData() {
-        List<MarsData> marsDataList = new ArrayList<>();
+    // holds all mars data
+    List<MarsData> marsDataList = new ArrayList<>();
     try {
       URI uri = new URI(urlString);
       URL url = uri.toURL();
-
+      // creates connections
       HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
       httpConnection.setRequestMethod("GET");
 
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(httpConnection.getInputStream());
 
+      // within the JSON array soles is the weather data
       JsonNode solesNode = rootNode.get("soles");
 
-      for (JsonNode solNode : solesNode) {
-        String date = solNode.get("terrestrial_date").asText();
-        int sol = solNode.get("sol").asInt();
-        double low = solNode.get("min_temp").asDouble();
-        double high = solNode.get("max_temp").asDouble();
+      for (int i = 0; i < 7; i++) {
+        JsonNode solNode = solesNode.get(i);
+        String date = solNode.get("terrestrial_date").asText(); // date
+        int solYear = solNode.get("sol").asInt(); // solar day on mars
+        double low = solNode.get("min_temp").asDouble(); // low
+        double high = solNode.get("max_temp").asDouble(); // high
 
         // Create MarsData object and add it to the list
-        MarsData marsData = new MarsData(date, sol, low, high);
+        MarsData marsData = new MarsData(date, solYear, low, high);
         marsDataList.add(marsData);
       }
 
     } catch (Exception e) {
-      e.printStackTrace();;
+      e.printStackTrace();
     }
 
     return marsDataList;
-
   }
-    public static void main(String[] args) {
-        MarsWeatherService service = new MarsWeatherService();
-        List<MarsData> weatherData = service.getMarsWeatherData();
 
-        // Print first 5 entries of weather data
-        for (int i = 0; i < 5 && i < weatherData.size(); i++) {
-            System.out.println(weatherData.get(i));
-        }
+  public static void main(String[] args) {
+    MarsWeatherService service = new MarsWeatherService();
+    List<MarsData> weatherData = service.getMarsWeatherData();
+
+    // Print first 5 entries of weather data
+    for (int i = 0; i < weatherData.size(); i++) {
+      System.out.println(weatherData.get(i));
     }
-
+  }
 
 }
