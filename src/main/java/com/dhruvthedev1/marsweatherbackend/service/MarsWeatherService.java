@@ -1,34 +1,41 @@
 package com.dhruvthedev1.marsweatherbackend.service;
 
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dhruvthedev1.marsweatherbackend.model.MarsData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import reactor.core.publisher.Mono;
+
 @Service
 public class MarsWeatherService {
   // url for Mars Weather - Curiosity Rover
-  private static final String urlString = "";
+  @Value("${url}")
+  private static String urlString;
 
   public List<MarsData> getMarsWeatherData() {
     // holds all mars data
     List<MarsData> marsDataList = new ArrayList<>();
     try {
-      URI uri = new URI(urlString);
-      URL url = uri.toURL();
-      // creates connections
-      HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-      httpConnection.setRequestMethod("GET");
+      // creates webclient instance
+      WebClient webClient = WebClient.create(urlString);
+      // initiates a GET request
+      // expects a string as the response -> bodyToMono(String.class) -> converts
+      // response to Mono<String>
+      Mono<String> response = webClient.get().retrieve().bodyToMono(String.class);
+
+      // makes it synchronous as it blocks the thread
+      // waits until response is recieved
+      String responseBody = response.block();
 
       ObjectMapper objectMapper = new ObjectMapper();
-      JsonNode rootNode = objectMapper.readTree(httpConnection.getInputStream());
+      JsonNode rootNode = objectMapper.readTree(responseBody);
 
       // within the JSON array soles is the weather data
       JsonNode solesNode = rootNode.get("soles");
@@ -52,12 +59,12 @@ public class MarsWeatherService {
     return marsDataList;
   }
 
-  public static void test(String[] args) {
+  public static void main(String[] args) {
     MarsWeatherService service = new MarsWeatherService();
     List<MarsData> data = service.getMarsWeatherData();
 
-    for(int i = 0; i < data.size(); i++) {
-      System.out.println(i);
+    for (int i = 0; i < data.size(); i++) {
+      System.out.println(data.get(i));
     }
   }
 }
