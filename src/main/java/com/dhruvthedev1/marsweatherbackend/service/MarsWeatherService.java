@@ -52,4 +52,12 @@ public class MarsWeatherService {
     return marsDataList;
   }
 
+  public static void test(String[] args) {
+    MarsWeatherService service = new MarsWeatherService();
+    List<MarsData> data = service.getMarsWeatherData();
+
+    for(int i = 0; i < data.size(); i++) {
+      System.out.println(i);
+    }
+  }
 }
