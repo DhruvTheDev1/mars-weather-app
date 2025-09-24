@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dhruvthedev1.marsweatherbackend.model.MarsData;
@@ -24,7 +25,16 @@ public class MarsWeatherService {
     List<MarsData> marsDataList = new ArrayList<>();
     try {
       // creates webclient instance
-      WebClient webClient = WebClient.create(urlString);
+      // sets manual buffer limit size or else DataBufferLimitException
+      WebClient webClient = WebClient.builder()
+          .baseUrl(urlString)
+          .exchangeStrategies(ExchangeStrategies
+              .builder()
+              .codecs(codecs -> codecs
+                  .defaultCodecs()
+                  .maxInMemorySize(2 * 1024 * 1024))
+              .build())
+          .build();
       // initiates a GET request
       // expects a string as the response -> bodyToMono(String.class) -> converts
       // response to Mono<String>
