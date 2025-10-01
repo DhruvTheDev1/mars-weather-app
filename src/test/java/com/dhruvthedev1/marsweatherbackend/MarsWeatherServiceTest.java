@@ -114,4 +114,13 @@ public class MarsWeatherServiceTest {
 
   }
 
+  @Test
+  public void testApiFailing() {
+    when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.error(new RuntimeException()));
+    List<MarsData> testMarsData = marsWeatherService.getMarsWeatherData();
+    assertEquals(0, testMarsData.size());
+  }
+
+
+
 }
