@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mars-Weather</title>
+</head>
+<body>
+  <h1>Mars Weather at Gale Crater</h1>
+
+   <table>
+        <tr>
+            <th>Date</th>
+            <th>Sol</th>
+            <th>Min Temp Celcius</th>
+            <th>Max Temp Celcius</th>
+        </tr>
+        <tr th:each="marsData : ${marsData}">
+            <td th:text="${marsData.date}"></td>
+            <td th:text="${marsData.sol}"></td>
+            <td th:text="${marsData.low}"></td>
+            <td th:text="${marsData.high}"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

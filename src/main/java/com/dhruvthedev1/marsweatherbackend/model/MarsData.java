@@ -13,7 +13,7 @@ public class MarsData {
   @JsonProperty("min_temp")
   private double low;
   
-  @JsonProperty("max_Temp")
+  @JsonProperty("max_temp")
   private double high;
 
   public MarsData() {
