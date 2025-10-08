@@ -4,25 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/styles.css}">
+
   <title>Mars-Weather</title>
 </head>
+
 <body>
   <h1>Mars Weather at Gale Crater</h1>
+  <p class="mission-info">
+    Part of NASA's Mars Science Laboratory mission, Curiosity, was the largest and most capable rover ever sent to Mars
+    when it launched in 2011.
+    Curiosity set out to answer the question: Did Mars ever have the right environmental conditions to support small
+    life forms called microbes?
+    Early in its mission, Curiosity's scientific tools found chemical and mineral evidence of past habitable
+    environments on Mars.
+    It continues to explore the rock record from a time when Mars could have been home to microbial life. (Source: NASA)
+    <a href="https://science.nasa.gov/mission/msl-curiosity/" target="_blank" rel="noopener noreferrer">Learn more</a>
+    <br>
+  </p>
 
-   <table>
-        <tr>
-            <th>Date</th>
-            <th>Sol</th>
-            <th>Min Temp Celcius</th>
-            <th>Max Temp Celcius</th>
-        </tr>
-        <tr th:each="marsData : ${marsData}">
-            <td th:text="${marsData.date}"></td>
-            <td th:text="${marsData.sol}"></td>
-            <td th:text="${marsData.low}"></td>
-            <td th:text="${marsData.high}"></td>
-        </tr>
-    </table>
+
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Sol</th>
+      <th>Low &degC</th>
+      <th>High &degC</th>
+    </tr>
+    <tr th:each="marsData : ${marsData}">
+      <td th:text="${marsData.date}"></td>
+      <td th:text="${marsData.sol}"></td>
+      <td th:text="${marsData.low}"></td>
+      <td th:text="${marsData.high}"></td>
+    </tr>
+  </table>
+
+  <p class="official-site">
+    Official Site:
+    <a href="https://mars.nasa.gov/layout/embed/image/mslweather/" target="_blank" rel="noopener noreferrer">
+      Click for official NASA Site for Weather at Gale Crater
+    </a>
+  </p>
 
 </body>
+
 </html>
