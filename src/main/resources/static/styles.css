@@ -20,6 +20,16 @@ h1 {
     border-radius: 5px;
 }
 
+.mission-info a {
+    color: #d35400;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.mission-info a:hover {
+    text-decoration: underline;
+}
+
 
 table {
     width: 80%;
